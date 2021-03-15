@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText etDescription;
     private Button btnPicture;
     private Button btnSubmit;
+    private Button btnLogout;
     private ImageView ivImage;
+    private ProgressBar pbProgress;
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -47,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         btnPicture = findViewById(R.id.btnPicture);
         btnSubmit = findViewById(R.id.btnSubmit);
+        btnLogout = findViewById(R.id.btnLogout);
         ivImage = findViewById(R.id.ivPicture);
+        pbProgress = findViewById(R.id.pbProgress);
+
 
 
         btnPicture.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +65,23 @@ public class MainActivity extends AppCompatActivity {
 
         //queryPosts();
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
+                goLoginActivity();
+            }
+        });
+
+
         btnSubmit.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
+                pbProgress.setVisibility(ProgressBar.VISIBLE);
+                //Progressbar visibility
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()){
                     Toast.makeText(MainActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
@@ -74,11 +93,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+
+                //pbProgress.setVisibility(ProgressBar.INVISIBLE);
             }
+
         });
 
 
     }
+
+    private void goLoginActivity() {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
+    }
+
 
     private void launchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -149,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Post save was successful");
                 etDescription.setText("");
                 ivImage.setImageResource(0);
+                pbProgress.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }
