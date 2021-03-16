@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="#edebe3">
 
     <EditText
         android:id="@+id/etDescription"
@@ -31,7 +32,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="85dp"
         android:layout_marginTop="81dp"
-        android:text="Take Picture" />
+        android:text="Take Picture"
+        android:backgroundTint="#5891AF"/>
 
     <ImageView
         android:id="@+id/ivPicture"
@@ -52,7 +54,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="140dp"
         android:layout_marginTop="134dp"
-        android:text="Submit" />
+        android:text="Submit"
+        android:backgroundTint="#5891AF"/>
 
     <ProgressBar
         android:id="@+id/pbProgress"
@@ -73,6 +76,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
-        android:text="LogOut" />
+        android:text="LogOut"
+        android:backgroundTint="#5891AF"/>
 
 </RelativeLayout>
