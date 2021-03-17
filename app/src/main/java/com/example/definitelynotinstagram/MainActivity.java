@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLogout;
     private ImageView ivImage;
     private ProgressBar pbProgress;
+
+    private BottomNavigationView bottomNavigationView;
+
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         ivImage = findViewById(R.id.ivPicture);
         pbProgress = findViewById(R.id.pbProgress);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
 
 
@@ -100,6 +108,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //MENU NAVIGATION VIEW
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment;
+                switch (menuItem.getItemId()) {
+                    case R.id.action_home:
+                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                        //fragment = fragment1;
+                        break;
+                    case R.id.action_profile:
+                        //fragment = fragment2;
+                        Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_compose:
+                    default:
+                        //fragment = fragment3;
+                        Toast.makeText(MainActivity.this, "Compose", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+
+            }
+        });
     }
 
     private void goLoginActivity() {
