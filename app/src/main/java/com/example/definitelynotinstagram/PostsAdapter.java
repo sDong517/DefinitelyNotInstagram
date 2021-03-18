@@ -18,6 +18,8 @@ import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
+    public static final String TAG = "PostAdapter";
+
     private Context context;
     private List<Post> posts;
 
@@ -51,17 +53,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvName;
         private TextView tvComment;
         private ImageView ivProfile;
+        private TextView tvTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvComment = itemView.findViewById(R.id.tvComment);
             ivProfile = itemView.findViewById(R.id.ivProfile);
+            tvTime = itemView.findViewById(R.id.tvTime);
         }
 
         public void bind(Post post) {
             tvComment.setText(post.getDescription());
             tvName.setText(post.getUser().getUsername());
+            tvTime.setText(post.getCreation().toString());
+
+
+            Log.i(TAG, "This works!" + post.getCreation());
 
             ParseFile image = post.getImage();
 
