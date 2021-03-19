@@ -1,6 +1,7 @@
 package com.example.definitelynotinstagram;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.definitelynotinstagram.fragments.ComposeFragment;
 import com.example.definitelynotinstagram.fragments.PostsFragment;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar pbProgress; */
 
     private BottomNavigationView bottomNavigationView;
+    //SwipeRefreshLayout swipeContainer;
 
     /*
     private File photoFile;
@@ -50,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
         */
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        /*swipeContainer = findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "fetching new data from refresh");
+            }
+        }); */
 
 
 /*

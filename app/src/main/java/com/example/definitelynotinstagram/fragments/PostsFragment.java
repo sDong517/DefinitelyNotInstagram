@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class PostsFragment extends Fragment {
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+    private SwipeRefreshLayout swipeContainer;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -58,20 +60,64 @@ public class PostsFragment extends Fragment {
 
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+
 
         /*Create layout for one row in the list
             Create adapter
             create the data source
             set the adapter on the rv
             set the layout manager on the rv
-        */
-        queryPosts();
 
+        */
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "refreshing for new data");
+                pullToRefresh();
+            }
+        });
+
+        //using Twitter pull to fresh colour scheme
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        queryPosts();
 
 
     }
 
-    //Make sure we are getting the posts back.
+    protected void pullToRefresh() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.addDescendingOrder(Post.KEY_CREATED_KEY);
+        Log.i("This works!", allPosts.get(0).getUser().getUsername());
+        query.setLimit(20);
+        query.whereGreaterThan(Post.KEY_CREATED_KEY, allPosts.get(0).getCreation());
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+
+                for (Post post : posts) {
+                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+                }
+
+
+                adapter.addAll(posts);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
+        //Make sure we are getting the posts back.
     protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);

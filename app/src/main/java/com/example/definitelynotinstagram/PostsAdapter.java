@@ -48,6 +48,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         return posts.size();
     }
 
+    // SWIPE TO REFRESH CLEAR
+    public void clear(){
+        posts.clear();
+        notifyDataSetChanged();
+    }
+    // SWIPE TO REFRESH ADD BACK
+    public void addAll(List<Post> postList){
+        posts.addAll(postList);
+        notifyDataSetChanged();
+
+    }
+
+
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvName;
