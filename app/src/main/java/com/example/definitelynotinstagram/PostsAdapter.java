@@ -1,6 +1,7 @@
 package com.example.definitelynotinstagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -90,6 +93,30 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Glide.with(context).load(post.getImage().getUrl()).into(ivProfile);
             }
 
+
+            //Clicking on the name will create a detailed view to 'PostDetail'
+            tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, PostDetail.class);
+
+                    i.putExtra("description", post.getDescription());
+
+                    i.putExtra("user", post.getUser().getUsername());
+
+                    i.putExtra("time",post.getCreation().toString());
+
+
+                    //i.putExtra("post", Parcels.wrap(post));
+
+                    context.startActivity(i);
+
+                }
+            });
+
+
         }
+
+
     }
 }
